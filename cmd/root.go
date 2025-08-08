@@ -34,6 +34,11 @@ func root(cmd *cobra.Command, args []string) {
 
 	// TODO: start the daemon
 
+	err = notifySystemdReady(zl)
+	if err != nil {
+		zl.Fatal("failed to notify systemd ready", zap.Error(err))
+	}
+
 	zl.Info("daemon started")
 
 	<-ctx.Done()
@@ -41,5 +46,10 @@ func root(cmd *cobra.Command, args []string) {
 	err = gracefulClose(clPool)
 	if err != nil {
 		zl.Error("failed to close the daemon", zap.Error(err))
+	}
+
+	err = notifySystemdStopping(zl)
+	if err != nil {
+		zl.Error("failed to notify systemd", zap.Error(err))
 	}
 }

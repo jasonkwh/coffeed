@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 	"strings"
 
+	"github.com/coreos/go-systemd/v22/daemon"
 	"github.com/jasonkwh/coffeed/config"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -85,4 +87,28 @@ func gracefulClose(services []io.Closer) error {
 
 func buildVersion() string {
 	return fmt.Sprintf("%s (commit: %s, built: %s)", version, commit, date)
+}
+
+func notifySystemdReady(logger *zap.Logger) error {
+	if os.Getenv("NOTIFY_SOCKET") != "" {
+		if _, err := daemon.SdNotify(false, daemon.SdNotifyReady); err != nil {
+			return err
+		}
+	} else {
+		logger.Info("not running under systemd - skipping ready notification")
+	}
+
+	return nil
+}
+
+func notifySystemdStopping(logger *zap.Logger) error {
+	if os.Getenv("NOTIFY_SOCKET") != "" {
+		if _, err := daemon.SdNotify(false, daemon.SdNotifyStopping); err != nil {
+			return err
+		}
+	} else {
+		logger.Info("not running under systemd - skipping stopping notification")
+	}
+
+	return nil
 }

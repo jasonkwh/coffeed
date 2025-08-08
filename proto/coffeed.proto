@@ -14,12 +14,16 @@ message SetBusyRequest {
     oneof time_spec {
         google.protobuf.Timestamp start_time = 1;
         bool from_now = 2;
-      }
-    oneof duration_spec {
-        google.protobuf.Timestamp end_time = 3;
-        google.protobuf.Duration duration = 4;
-      }
+    }
+    optional DurationSpec duration_spec = 3;
     optional string reason = 5;
+}
+
+message DurationSpec {
+    oneof spec {
+        google.protobuf.Timestamp end_time = 1;
+        google.protobuf.Duration duration = 2;
+    }
 }
 
 message SetBusyResponse {
