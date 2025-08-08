@@ -4,6 +4,12 @@ VERSION := $(shell git describe --tags --always --dirty)
 COMMIT := $(shell git rev-parse --short HEAD)
 DATE := $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 
+lint:
+	golangci-lint run -c .golangci.yml
+
+test-clean-cache:
+	go clean -testcache
+
 build:
 	go build -ldflags "-X main.version=$(VERSION) -X main.commit=$(COMMIT) -X main.date=$(DATE)" -o coffeed
 

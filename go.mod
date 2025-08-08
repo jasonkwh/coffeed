@@ -4,7 +4,7 @@ go 1.24.4
 
 require (
 	github.com/coreos/go-systemd/v22 v22.5.0
-	github.com/jasonkwh/gatekeeper v0.0.0-20250808114934-6832986fa731
+	github.com/jasonkwh/gatekeeper v0.0.0-20250808135929-a7088ac59114
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
 	go.uber.org/multierr v1.11.0

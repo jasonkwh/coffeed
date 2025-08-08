@@ -22,7 +22,12 @@ func NewDaemonServer(
 
 	srv := &DaemonServer{}
 
-	srv.listener, err = net.Listen("unix", getSocketPath())
+	socketPath, err := getSocketPath()
+	if err != nil {
+		return nil, err
+	}
+
+	srv.listener, err = net.Listen("unix", socketPath)
 	if err != nil {
 		return nil, err
 	}
