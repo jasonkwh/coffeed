@@ -1,0 +1,28 @@
+syntax = "proto3";
+package coffeed;
+
+option go_package = "./proto";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+service CoffeedService {
+    rpc SetBusy(SetBusyRequest) returns (SetBusyResponse);
+}
+
+message SetBusyRequest {
+    oneof time_spec {
+        google.protobuf.Timestamp start_time = 1;
+        bool from_now = 2;
+      }
+    oneof duration_spec {
+        google.protobuf.Timestamp end_time = 3;
+        google.protobuf.Duration duration = 4;
+      }
+    optional string reason = 5;
+}
+
+message SetBusyResponse {
+    bool success = 1;
+    string event_id = 2;
+}

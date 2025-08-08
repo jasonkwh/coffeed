@@ -1,0 +1,7 @@
+LogLevel: -1 # debug
+
+PollingInterval: 5m
+
+Integration:
+  GoogleCalendar:
+    ApiKey: AIzaSyD-9tSr4XfLTM3yUfiMpYxySpHio67Ghro
